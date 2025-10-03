@@ -1,0 +1,20 @@
+PROBLEM 6 ANSWER
+
+a. Minimum cardinality = 0 because a customer may exist without yet doing business in any region.
+b. ITEM attributes: ItemID, ItemName, UnitPrice, QuantityOnHand, ReorderLevel, Description.
+c. MATERIAL attributes: MaterialID, MaterialName, UnitOfMeasure, UnitCost, QuantityOnHand, ReorderPoint.
+
+
+PROBLEM 7 ANSWER
+
+No, I would not create a supertype/subtype relationship for this problem.
+
+Because
+
+All four vehicle classes (compact, midsize, full-size, sport utility) share the same attributes: VehicleID, Make, Model, Year, and Color.
+
+None of the vehicle classes has attributes that are unique to that class.
+
+None of the vehicle classes has unique relationships with other entity types (they all participate in the same Rents relationship with CUSTOMER).
+
+Because there are no distinct attributes or relationships to justify specialization, a simple VEHICLE entity with a single attribute Category (values: Compact, Midsize, FullSize, SUV) is the most efficient design.
