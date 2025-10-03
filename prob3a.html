@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Problem 3a — Figure 3-2 EER (with Discriminator)</title>
+  <style>
+    body{font-family:Inter,Arial,Helvetica,sans-serif;background:#f6f8fa;padding:20px;color:#0f1724}
+    .card{background:white;border-radius:12px;padding:18px;max-width:980px;margin:auto;box-shadow:0 6px 18px rgba(15,23,36,0.06)}
+    h1{font-size:18px;margin:0 0 8px}
+    p.note{margin:0 0 12px;color:#334155}
+    svg{width:100%;height:520px}
+    .entity{fill:#ffffff;stroke:#0f1724;stroke-width:1.4;rx:6}
+    .etype{fill:#f8fafc;stroke:#0f1724;stroke-width:1;rx:6}
+    .label{font-weight:700;font-size:13px}
+    .att{font-size:12px}
+    .disc{font-size:11px;font-weight:700;fill:#0f1724}
+    .edge{stroke:#0f1724;stroke-width:1.2;fill:none}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Problem 3a — Figure 3-2 (Employee supertype with discriminator)</h1>
+    <p class="note">This reproduces Figure 3-2 from the textbook and adds a <b>subtype discriminator</b> attribute to EMPLOYEE: <i>EmployeeType</i> with values {Hourly, Salaried, Consultant}.</p>
+
+    <svg viewBox="0 0 980 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Figure 3-2 EER with discriminator">
+      <!-- EMPLOYEE supertype box -->
+      <rect x="360" y="28" width="260" height="96" class="entity" />
+      <text x="490" y="54" text-anchor="middle" class="label">EMPLOYEE</text>
+      <text x="490" y="74" text-anchor="middle" class="att">(EmployeeNumber PK, EmployeeName, Address, DateHired)</text>
+      <text x="490" y="92" text-anchor="middle" class="att">EmployeeType (discriminator) = {Hourly, Salaried, Consultant}</text>
+
+      <!-- specialization circle -->
+      <circle cx="490" cy="160" r="12" fill="#ffffff" stroke="#0f1724" stroke-width="1.2" />
+
+      <!-- HOURLY EMPLOYEE box -->
+      <rect x="120" y="208" width="200" height="72" class="etype" />
+      <text x="220" y="238" text-anchor="middle" class="label">HOURLY EMPLOYEE</text>
+      <text x="220" y="260" text-anchor="middle" class="att">(HourlyRate)</text>
+
+      <!-- SALARIED EMPLOYEE box -->
+      <rect x="390" y="208" width="200" height="72" class="etype" />
+      <text x="490" y="238" text-anchor="middle" class="label">SALARIED EMPLOYEE</text>
+      <text x="490" y="260" text-anchor="middle" class="att">(AnnualSalary, StockOption)</text>
+
+      <!-- CONSULTANT box -->
+      <rect x="660" y="208" width="200" height="72" class="etype" />
+      <text x="760" y="238" text-anchor="middle" class="label">CONSULTANT</text>
+      <text x="760" y="260" text-anchor="middle" class="att">(ContractNumber, BillingRate)</text>
+
+      <!-- connector lines -->
+      <line x1="490" y1="124" x2="490" y2="148" class="edge" />
+      <line x1="490" y1="172" x2="220" y2="208" class="edge" />
+      <line x1="490" y1="172" x2="490" y2="208" class="edge" />
+      <line x1="490" y1="172" x2="760" y2="208" class="edge" />
+
+      <!-- discriminator labels on edges -->
+      <text x="350" y="168" class="disc">EmployeeType = Hourly</text>
+      <text x="490" y="168" class="disc">EmployeeType = Salaried</text>
+      <text x="620" y="168" class="disc">EmployeeType = Consultant</text>
+
+      <!-- legend -->
+      <rect x="24" y="380" width="320" height="110" rx="8" fill="#f8fafc" stroke="#e6eef2" />
+      <text x="44" y="408" class="label">Notes</text>
+      <text x="44" y="428" class="att">• Discriminator attribute added to EMPLOYEE</text>
+      <text x="44" y="448" class="att">• Specialization shown as total & disjoint (as in textbook)</text>
+      <text x="44" y="468" class="att">• PK shown in parentheses for clarity</text>
+
+    </svg>
+
+    <p style="margin-top:12px;color:#334155">Assumptions: The textbook figure implies a disjoint specialization where each employee is exactly one of the three subtypes. The <b>EmployeeType</b> discriminator is the conventional attribute to add to the supertype to indicate subtype membership.</p>
+  </div>
+</body>
+</html>

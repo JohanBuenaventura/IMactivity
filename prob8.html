@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Problem 8 — HOLDING Specialization Diagrams (a–d)</title>
+<style>
+  body{font-family:Inter,Arial,Helvetica,sans-serif;background:#f6f8fa;padding:20px;color:#0f1724}
+  .card{background:white;border-radius:12px;padding:18px;max-width:1100px;margin:14px auto;box-shadow:0 6px 24px rgba(15,23,36,0.06)}
+  h1{font-size:20px;margin:0 0 8px}
+  p.note{margin:0 0 12px;color:#334155}
+  .segment{padding:12px 0;border-top:1px dashed #e6eef2}
+  svg{width:100%;height:220px;display:block}
+  .entity{fill:#fff;stroke:#0f1724;stroke-width:1.4;rx:6}
+  .etype{fill:#f8fafc;stroke:#0f1724;stroke-width:1;rx:6}
+  .label{font-weight:700;font-size:13px}
+  .att{font-size:12px}
+  .disc{font-size:11px;font-weight:700;fill:#0f1724}
+  .edge{stroke:#0f1724;stroke-width:1.2;fill:none}
+  .note-block{background:#f8fafc;padding:10px;border-radius:8px;margin-top:8px}
+  .small{font-size:12px;color:#334155}
+  .btn{display:inline-block;margin-top:12px;background:#0ea5a4;color:white;padding:8px 12px;border-radius:8px;text-decoration:none}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Problem 8 — HOLDING Specializations (a–d)</h1>
+    <p class="note">Each segment below shows the EER notation for the given constraint type. <b>HOLDING</b> is the supertype; subtypes: <b>BOOK, AUDIO_BOOK, DVD, SOFTWARE</b>.</p>
+
+    <div class="segment" id="a">
+      <h2>a) Disjoint &amp; Total — must be exactly one subtype</h2>
+      <svg viewBox="0 0 1000 220" xmlns="http://www.w3.org/2000/svg" aria-label="Case a">
+        <!-- SUPER -->
+        <rect x="420" y="16" width="260" height="80" class="entity" />
+        <text x="550" y="42" text-anchor="middle" class="label">HOLDING</text>
+        <text x="550" y="62" text-anchor="middle" class="att">(HoldingID PK, Title, PubYear)</text>
+        <text x="550" y="78" text-anchor="middle" class="att">HoldingType (discriminator)</text>
+
+        <!-- specialization triangle (solid) to indicate total -->
+        <polygon points="550,96 535,120 565,120" fill="#0f1724" opacity="0.06" />
+
+        <!-- Subtypes -->
+        <rect x="40" y="140" width="180" height="56" class="etype" />
+        <text x="130" y="170" class="label">BOOK</text>
+
+        <rect x="270" y="140" width="180" height="56" class="etype" />
+        <text x="360" y="170" class="label">AUDIO_BOOK</text>
+
+        <rect x="500" y="140" width="180" height="56" class="etype" />
+        <text x="590" y="170" class="label">DVD</text>
+
+        <rect x="730" y="140" width="200" height="56" class="etype" />
+        <text x="830" y="170" class="label">SOFTWARE</text>
+
+        <!-- connectors -->
+        <line x1="550" y1="96" x2="130" y2="140" class="edge" />
+        <line x1="550" y1="96" x2="360" y2="140" class="edge" />
+        <line x1="550" y1="96" x2="590" y2="140" class="edge" />
+        <line x1="550" y1="96" x2="830" y2="140" class="edge" />
+
+        <!-- labels -->
+        <text x="320" y="110" class="disc">Disjoint = yes (exactly one)</text>
+        <text x="680" y="110" class="disc">Total = yes (must be one)</text>
+      </svg>
+      <div class="note-block small">Notation: Use a discriminator attribute (HOLDING.HoldingType) and mark specialization as <b>disjoint</b> and <b>total</b>. This enforces that each holding is exactly one subtype at any time.</div>
+    </div>
+
+    <div class="segment" id="b">
+      <h2>b) Disjoint &amp; Partial — may be none, but if a subtype, only one</h2>
+      <svg viewBox="0 0 1000 220" xmlns="http://www.w3.org/2000/svg" aria-label="Case b">
+        <rect x="420" y="16" width="260" height="80" class="entity" />
+        <text x="550" y="42" text-anchor="middle" class="label">HOLDING</text>
+        <text x="550" y="62" text-anchor="middle" class="att">(HoldingID PK, Title, PubYear)</text>
+        <text x="550" y="78" text-anchor="middle" class="att">HoldingType (discriminator, optional)</text>
+
+        <!-- specialization triangle (open/partial) -->
+        <polygon points="550,96 535,120 565,120" fill="#ffffff" stroke="#0f1724" stroke-width="1" />
+
+        <!-- Subtypes -->
+        <rect x="40" y="140" width="180" height="56" class="etype" />
+        <text x="130" y="170" class="label">BOOK</text>
+
+        <rect x="270" y="140" width="180" height="56" class="etype" />
+        <text x="360" y="170" class="label">AUDIO_BOOK</text>
+
+        <rect x="500" y="140" width="180" height="56" class="etype" />
+        <text x="590" y="170" class="label">DVD</text>
+
+        <rect x="730" y="140" width="200" height="56" class="etype" />
+        <text x="830" y="170" class="label">SOFTWARE</text>
+
+        <!-- connectors -->
+        <line x1="550" y1="96" x2="130" y2="140" class="edge" />
+        <line x1="550" y1="96" x2="360" y2="140" class="edge" />
+        <line x1="550" y1="96" x2="590" y2="140" class="edge" />
+        <line x1="550" y1="96" x2="830" y2="140" class="edge" />
+
+        <!-- labels -->
+        <text x="320" y="110" class="disc">Disjoint = yes (no overlap)</text>
+        <text x="680" y="110" class="disc">Partial = yes (may be none)</text>
+      </svg>
+      <div class="note-block small">Notation: Specialization is <b>disjoint</b> and <b>partial</b>. A HOLDING may be uncategorized (no subtype), but if categorized, it must belong to exactly one subtype.</div>
+    </div>
+
+    <div class="segment" id="c">
+      <h2>c) Overlap &amp; Partial — may be none, but can belong to multiple subtypes</h2>
+      <svg viewBox="0 0 1000 220" xmlns="http://www.w3.org/2000/svg" aria-label="Case c">
+        <rect x="420" y="16" width="260" height="80" class="entity" />
+        <text x="550" y="42" text-anchor="middle" class="label">HOLDING</text>
+        <text x="550" y="62" text-anchor="middle" class="att">(HoldingID PK, Title, PubYear)</text>
+        <text x="550" y="78" text-anchor="middle" class="att">HoldingCategories (multi-valued)</text>
+
+        <!-- specialization indicator (overlap) -->
+        <polygon points="550,96 535,120 565,120" fill="#ffffff" stroke="#0f1724" stroke-width="1" />
+        <text x="550" y="124" text-anchor="middle" class="disc">Overlap</text>
+
+        <!-- Subtypes -->
+        <rect x="40" y="140" width="180" height="56" class="etype" />
+        <text x="130" y="170" class="label">BOOK</text>
+
+        <rect x="270" y="140" width="180" height="56" class="etype" />
+        <text x="360" y="170" class="label">AUDIO_BOOK</text>
+
+        <rect x="500" y="140" width="180" height="56" class="etype" />
+        <text x="590" y="170" class="label">DVD</text>
+
+        <rect x="730" y="140" width="200" height="56" class="etype" />
+        <text x="830" y="170" class="label">SOFTWARE</text>
+
+        <!-- connectors -->
+        <line x1="550" y1="96" x2="130" y2="140" class="edge" />
+        <line x1="550" y1="96" x2="360" y2="140" class="edge" />
+        <line x1="550" y1="96" x2="590" y2="140" class="edge" />
+        <line x1="550" y1="96" x2="830" y2="140" class="edge" />
+
+        <!-- labels -->
+        <text x="320" y="110" class="disc">Overlap = yes (can be multiple)</text>
+        <text x="680" y="110" class="disc">Partial = yes (may be none)</text>
+      </svg>
+      <div class="note-block small">Notation: Use overlapping specialization and either model the discriminator as multi-valued or use Boolean flags for each subtype (IsBook, IsAudioBook, ...).</div>
+    </div>
+
+    <div class="segment" id="d">
+      <h2>d) Overlap &amp; Total — must be at least one subtype (can be many)</h2>
+      <svg viewBox="0 0 1000 220" xmlns="http://www.w3.org/2000/svg" aria-label="Case d">
+        <rect x="420" y="16" width="260" height="80" class="entity" />
+        <text x="550" y="42" text-anchor="middle" class="label">HOLDING</text>
+        <text x="550" y="62" text-anchor="middle" class="att">(HoldingID PK, Title, PubYear)</text>
+        <text x="550" y="78" text-anchor="middle" class="att">HoldingCategories (multi-valued)</text>
+
+        <!-- specialization indicator (overlap + total) -->
+        <polygon points="550,96 535,120 565,120" fill="#0f1724" opacity="0.06" />
+        <text x="550" y="124" text-anchor="middle" class="disc">Overlap + Total</text>
+
+        <!-- Subtypes -->
+        <rect x="40" y="140" width="180" height="56" class="etype" />
+        <text x="130" y="170" class="label">BOOK</text>
+
+        <rect x="270" y="140" width="180" height="56" class="etype" />
+        <text x="360" y="170" class="label">AUDIO_BOOK</text>
+
+        <rect x="500" y="140" width="180" height="56" class="etype" />
+        <text x="590" y="170" class="label">DVD</text>
+
+        <rect x="730" y="140" width="200" height="56" class="etype" />
+        <text x="830" y="170" class="label">SOFTWARE</text>
+
+        <!-- connectors -->
+        <line x1="550" y1="96" x2="130" y2="140" class="edge" />
+        <line x1="550" y1="96" x2="360" y2="140" class="edge" />
+        <line x1="550" y1="96" x2="590" y2="140" class="edge" />
+        <line x1="550" y1="96" x2="830" y2="140" class="edge" />
+
+        <!-- labels -->
+        <text x="320" y="110" class="disc">Overlap = yes (can be multiple)</text>
+        <text x="680" y="110" class="disc">Total = yes (must belong to at least one)</text>
+      </svg>
+      <div class="note-block small">Notation: Use overlapping + total specialization. Enforce via business rules that HoldingCategories cannot be empty (every holding must map to ≥1 subtype).</div>
+    </div>
+
+    <a class="btn" href="#" onclick="downloadSVGs();return false;">Download All Diagrams as SVGs</a>
+
+    <script>
+      function downloadSVGs(){
+        const svgs = document.querySelectorAll('svg');
+        svgs.forEach((svg, i) => {
+          const serializer = new XMLSerializer();
+          const source = serializer.serializeToString(svg);
+          const blob = new Blob([source], {type: 'image/svg+xml;charset=utf-8'});
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'problem8_part_'+(i+1)+'.svg';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        })
+      }
+    </script>
+
+  </div>
+</body>
+</html>

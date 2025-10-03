@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Problem 5 — Figure 3-3 Redo (EER + Discriminator)</title>
+<style>
+  body{font-family:Inter,Arial,Helvetica,sans-serif;background:#f6f8fa;padding:20px;color:#0f1724}
+  .card{background:white;border-radius:12px;padding:18px;max-width:980px;margin:auto;box-shadow:0 6px 24px rgba(15,23,36,0.06)}
+  h1{font-size:18px;margin:0 0 8px}
+  p.note{margin:0 0 12px;color:#334155}
+  svg{width:100%;height:520px}
+  .entity{fill:#ffffff;stroke:#0f1724;stroke-width:1.4;rx:6}
+  .etype{fill:#f8fafc;stroke:#0f1724;stroke-width:1;rx:6}
+  .label{font-weight:700;font-size:13px}
+  .att{font-size:12px}
+  .disc{font-size:11px;font-weight:700;fill:#0f1724}
+  .edge{stroke:#0f1724;stroke-width:1.2;fill:none}
+  pre{background:#0f1724;color:#f8fafc;padding:12px;border-radius:8px;overflow:auto}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Problem 5 — Figure 3-3 Redo (Patient with Discriminator)</h1>
+    <p class="note">This file reproduces Figure 3-3 from the textbook (PATIENT supertype with OUTPATIENT and RESIDENT subtypes) and explicitly adds a <b>PatientType</b> discriminator attribute. It also defines the relationships to PHYSICIAN and BED.</p>
+
+    <svg viewBox="0 0 980 520" xmlns="http://www.w3.org/2000/svg">
+      <!-- PATIENT supertype -->
+      <rect x="360" y="18" width="260" height="96" class="entity" />
+      <text x="490" y="44" text-anchor="middle" class="label">PATIENT</text>
+      <text x="490" y="66" text-anchor="middle" class="att">(PatientID PK, PatientName, AdmitDate)</text>
+      <text x="490" y="84" text-anchor="middle" class="att">PatientType (discriminator) = {Outpatient, Resident}</text>
+
+      <!-- specialization circle -->
+      <circle cx="490" cy="140" r="12" fill="#ffffff" stroke="#0f1724" stroke-width="1.2" />
+
+      <!-- OUTPATIENT subtype -->
+      <rect x="100" y="180" width="240" height="80" class="etype" />
+      <text x="220" y="210" text-anchor="middle" class="label">OUTPATIENT</text>
+      <text x="220" y="230" text-anchor="middle" class="att">(VisitDate, Clinic, ResponsiblePhysicianID FK)</text>
+
+      <!-- RESIDENT subtype -->
+      <rect x="640" y="180" width="240" height="100" class="etype" />
+      <text x="760" y="210" text-anchor="middle" class="label">RESIDENT</text>
+      <text x="760" y="230" text-anchor="middle" class="att">(BedAssigned FK, DateDischarged, ResponsiblePhysicianID FK)</text>
+
+      <!-- specialization connectors -->
+      <line x1="490" y1="114" x2="490" y2="128" class="edge" />
+      <line x1="490" y1="152" x2="220" y2="180" class="edge" />
+      <line x1="490" y1="152" x2="760" y2="180" class="edge" />
+
+      <!-- discriminator labels -->
+      <text x="300" y="150" class="disc">PatientType = Outpatient</text>
+      <text x="600" y="150" class="disc">PatientType = Resident</text>
+
+      <!-- PHYSICIAN entity -->
+      <rect x="100" y="340" width="220" height="70" class="entity" />
+      <text x="210" y="368" text-anchor="middle" class="label">PHYSICIAN</text>
+      <text x="210" y="388" text-anchor="middle" class="att">(PhysicianID PK, Name, Specialty)</text>
+
+      <!-- BED entity -->
+      <rect x="640" y="340" width="220" height="70" class="entity" />
+      <text x="750" y="368" text-anchor="middle" class="label">BED</text>
+      <text x="750" y="388" text-anchor="middle" class="att">(BedID PK, Ward, BedType)</text>
+
+      <!-- edges from subtypes to entities -->
+      <line x1="220" y1="260" x2="210" y2="340" class="edge" />
+      <line x1="760" y1="280" x2="750" y2="340" class="edge" />
+      <line x1="760" y1="280" x2="210" y2="340" class="edge" />
+
+    </svg>
+
+    <h2 style="margin:14px 0 6px">Definitions</h2>
+    <ul class="att">
+      <li><b>PATIENT</b> — supertype with common attributes (ID, Name, AdmitDate). <i>PatientType</i> indicates subtype.</li>
+      <li><b>OUTPATIENT</b> — visits clinic, associated with one responsible physician.</li>
+      <li><b>RESIDENT</b> — assigned a bed, has a responsible physician, may be discharged.</li>
+      <li><b>PHYSICIAN</b> — medical staff responsible for patients.</li>
+      <li><b>BED</b> — hospital bed assigned to residents.</li>
+      <li><b>Relationships</b>: Outpatient → Physician (cared for), Resident → Physician (cared for), Resident → Bed (assigned).</li>
+    </ul>
+
+    <h2 style="margin:14px 0 6px">Sample Relational Mapping (DDL)</h2>
+    <pre>CREATE TABLE Patient (
+  PatientID INT PRIMARY KEY,
+  PatientName VARCHAR(100),
+  AdmitDate DATE,
+  PatientType VARCHAR(20)
+);
+
+CREATE TABLE Outpatient (
+  PatientID INT PRIMARY KEY,
+  VisitDate DATE,
+  Clinic VARCHAR(50),
+  ResponsiblePhysicianID INT,
+  FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
+  FOREIGN KEY (ResponsiblePhysicianID) REFERENCES Physician(PhysicianID)
+);
+
+CREATE TABLE Resident (
+  PatientID INT PRIMARY KEY,
+  BedAssigned INT,
+  DateDischarged DATE,
+  ResponsiblePhysicianID INT,
+  FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
+  FOREIGN KEY (BedAssigned) REFERENCES Bed(BedID),
+  FOREIGN KEY (ResponsiblePhysicianID) REFERENCES Physician(PhysicianID)
+);
+
+CREATE TABLE Physician (
+  PhysicianID INT PRIMARY KEY,
+  Name VARCHAR(100),
+  Specialty VARCHAR(50)
+);
+
+CREATE TABLE Bed (
+  BedID INT PRIMARY KEY,
+  Ward VARCHAR(50),
+  BedType VARCHAR(50)
+);</pre>
+
+    <p style="margin-top:12px;color:#334155">Notes: This is a total/disjoint specialization (every patient is either outpatient or resident). The <b>PatientType</b> discriminator drives subtype membership.</p>
+  </div>
+</body>
+</html>
